@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_alphabet"
+            android:icon="@drawable/ic_alphabet"
+            android:title="Alphabet" />
+        <item
+            android:id="@+id/nav_kanji"
+            android:icon="@drawable/ic_kanji"
+            android:title="Kanji" />
+        <item
+            android:id="@+id/nav_vocabulary"
+            android:icon="@drawable/ic_vocabulary"
+            android:title="Vocabulary" />
+    </group>
+
+    <item android:title="User">
+        <menu>
+            <item
+                android:id="@+id/nav_profile"
+                android:icon="@drawable/ic_email"
+                android:title="Profile">
+            </item>
+
+            <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/ic_logout"
+            android:title="Log out">
+            </item>
+        </menu>
+    </item>
+
+    <item android:title="About">
+        <menu>
+            <item
+                android:id="@+id/nav_about"
+                android:icon="@drawable/ic_email"
+                android:title="About">
+            </item>
+        </menu>
+    </item>
+
+</menu>
