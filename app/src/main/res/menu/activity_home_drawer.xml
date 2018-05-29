@@ -7,39 +7,23 @@
         <item
             android:id="@+id/nav_alphabet"
             android:icon="@drawable/ic_alphabet"
-            android:title="Alphabet" />
+            android:title="Bảng chữ cái" />
         <item
-            android:id="@+id/nav_kanji"
-            android:icon="@drawable/ic_kanji"
-            android:title="Kanji" />
-        <item
-            android:id="@+id/nav_vocabulary"
+            android:id="@+id/nav_minanoNihongo"
             android:icon="@drawable/ic_vocabulary"
-            android:title="Vocabulary" />
+            android:title="Từ vựng Minano Nihongo" />
+        <item
+            android:id="@+id/nav_mimikaraOboeruN3"
+            android:icon="@drawable/ic_kanji"
+            android:title="Từ vựng Mimikara Oboeru N3" />
     </group>
 
     <item android:title="User">
         <menu>
             <item
-                android:id="@+id/nav_profile"
-                android:icon="@drawable/ic_email"
-                android:title="Profile">
-            </item>
-
-            <item
-            android:id="@+id/nav_logout"
-            android:icon="@drawable/ic_logout"
-            android:title="Log out">
-            </item>
-        </menu>
-    </item>
-
-    <item android:title="About">
-        <menu>
-            <item
-                android:id="@+id/nav_about"
-                android:icon="@drawable/ic_email"
-                android:title="About">
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/ic_logout"
+                android:title="Đăng xuất">
             </item>
         </menu>
     </item>

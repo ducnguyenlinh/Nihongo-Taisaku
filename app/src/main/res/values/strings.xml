@@ -8,6 +8,26 @@
 
     <!--Actionbar-->
     <string name="action_search">Search</string>
+    <string name="action_speaker">Speaker</string>
     <string name="title_activity_writing_hiragana">ひらがな</string>
     <string name="title_activity_writing_katakana">カタカナ</string>
+    <string name="title_activity_lesson">皆の日本語</string>
+    <string name="title_activity_profile">PROFILE</string>
+
+    <!-- Sign In -->
+    <string name="sign_up_label">Sign Up</string>
+    <string name="log_in_label">Log In</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="password_hint">Password</string>
+    <string name="email_hint">Email</string>
+    <string name="confirm_hint">Confirm Password</string>
+
+    <string name="action_hisory">History</string>
+
+    <string-array name="stepLabels">
+        <item>Hiragana cơ bản</item>
+        <item>Katakana cơ bản</item>
+        <item>Hiragana nâng cao</item>
+        <item>Katakana nâng cao</item>
+    </string-array>
 </resources>

@@ -24,4 +24,19 @@
     <color name="red_A700">#e23131</color>
     <color name="blue_800">#1565C0</color>
     <color name="colorFAB1">#2196F3</color>
+
+    <!-- Sign In -->
+    <color name="color_log_in">#94019c8f</color>
+    <color name="color_sign_up">#93303f9f</color>
+
+
+    <color name="color_logo_log_in">#b4faf5</color>
+    <color name="color_logo_sign_up">#bbc4fd</color>
+
+    <color name="color_label">#ededed</color>
+    <color name="white_transparent">#fafafa</color>
+
+    <color name="color_input_hint">#FFF</color>
+    <color name="color_text_highlight">#fafafa</color>
+    <color name="color_text">#FFF</color>
 </resources>

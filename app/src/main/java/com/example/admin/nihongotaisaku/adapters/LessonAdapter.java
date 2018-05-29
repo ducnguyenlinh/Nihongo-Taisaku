@@ -9,18 +9,18 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.admin.nihongotaisaku.R;
-import com.example.admin.nihongotaisaku.models.ListLesson;
+import com.example.admin.nihongotaisaku.models.LessonModel;
 
 import java.util.ArrayList;
 
 public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.LessonHolder>{
-    ArrayList<ListLesson> arrListLesson;
-    Activity context;
+    ArrayList<LessonModel> mListLesson = new ArrayList<>();
+    Activity mContext;
     private OnItemClick onItemClick;
 
-    public LessonAdapter(Activity context, ArrayList<ListLesson> arrListLesson) {
-        this.context = context;
-        this.arrListLesson = arrListLesson;
+    public LessonAdapter(Activity mContext, ArrayList<LessonModel> mListLesson) {
+        this.mContext = mContext;
+        this.mListLesson = mListLesson;
     }
 
     public void setOnItemClick(OnItemClick onItemClick) {
@@ -40,7 +40,7 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.LessonHold
 
     @Override
     public void onBindViewHolder(final LessonHolder holder, final int position) {
-        holder.tvLesson.setText(arrListLesson.get(position).getLessonTitle());
+        holder.tvLesson.setText(mListLesson.get(position).getContent());
         holder.cardLesson.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,7 +51,7 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.LessonHold
 
     @Override
     public int getItemCount() {
-        return arrListLesson.size();
+        return mListLesson.size();
     }
 
     public static class LessonHolder extends RecyclerView.ViewHolder{

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/action_look_feedbacks"
+        android:title="Xem phản hồi khác"
+        android:icon="@drawable/ic_look"
+        app:showAsAction="never"/>
+    <item android:id="@+id/action_feedback"
+        android:title="Phản hồi"
+        android:icon="@drawable/ic_edit"
+        app:showAsAction="never"/>
+</menu>
