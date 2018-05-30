@@ -253,6 +253,11 @@ public class AlphabetWritingFragment extends Fragment{
         protected void onPostExecute(Bitmap bitmap) {
             if(bitmap!=null) {
                 Bitmap bmMyView = signature_canvas.getBitMaps();
+                if (bmMyView == null){
+                    Toast.makeText(getContext(),"You must paint before compare!",Toast.LENGTH_LONG).show();
+                    progress.dismiss();
+                    return;
+                }
                 compareMats(bmMyView, bitmap);
                 progress.dismiss();
             } else {

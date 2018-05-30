@@ -12,8 +12,6 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.AnimationUtils;
-import android.view.animation.LayoutAnimationController;
 
 import com.example.admin.nihongotaisaku.R;
 import com.example.admin.nihongotaisaku.adapters.HistoryAdapter;
@@ -144,7 +142,7 @@ public class ListVocabulary_Activity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.lesson_histories_menu, menu);
+        getMenuInflater().inflate(R.menu.history_menu, menu);
         return true;
     }
 
@@ -155,7 +153,7 @@ public class ListVocabulary_Activity extends AppCompatActivity {
                 super.onBackPressed();
                 overridePendingTransition(R.anim.slide_in_from_left, R.anim.slide_out_to_right);
                 return true;
-            case R.id.item_histories:
+            case R.id.action_histories:
                 getHistoryVocabulary();
                 return true;
         }

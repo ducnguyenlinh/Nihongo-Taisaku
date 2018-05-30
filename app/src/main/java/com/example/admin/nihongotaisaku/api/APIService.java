@@ -159,7 +159,6 @@ public interface APIService {
     );
 
     //GET feedbacks
-    //GET histories
     @GET("api/feedbacks.json")
     Call<ArrayList<FeedbackModel>> getFeedbacksService(
             @Query("user_email") String email,

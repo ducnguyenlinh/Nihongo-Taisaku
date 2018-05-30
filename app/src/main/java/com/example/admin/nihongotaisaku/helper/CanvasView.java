@@ -138,6 +138,8 @@ public class CanvasView extends View implements View.OnTouchListener{
     }
 
     public Bitmap getBitMaps(){
+        if (paths.size() == 0)
+            return null;
         if (mBitmap != null)
             return this.getDrawingCache();
         else return null;

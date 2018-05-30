@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +14,13 @@ import android.view.animation.LayoutAnimationController;
 
 import com.example.admin.nihongotaisaku.R;
 import com.example.admin.nihongotaisaku.activities.AlphabetImageActivity;
+import com.example.admin.nihongotaisaku.activities.LessonActivity;
 import com.example.admin.nihongotaisaku.adapters.AlphabetImageAdapter;
 import com.example.admin.nihongotaisaku.api.APIRetrofit;
 import com.example.admin.nihongotaisaku.helper.SharedPrefManager;
 import com.example.admin.nihongotaisaku.models.AlphabetModel;
 import com.example.admin.nihongotaisaku.models.HistoryModel;
+import com.example.admin.nihongotaisaku.models.ResultUserLesson;
 
 import java.util.ArrayList;
 
@@ -42,12 +43,12 @@ public class ListAlphabetFragment extends Fragment{
         rclAlphabets.setLayoutManager(new GridLayoutManager(getContext(), 5));
         listAlphabetImageAdapter = new AlphabetImageAdapter();
 
-        getListHiragana(classify);
+        getListAlphabetLocal(classify);
 
         return view;
     }
 
-    private void getListHiragana(int classify){
+    private void getListAlphabetLocal(int classify){
         Call<ArrayList<AlphabetModel>> call_alphabets = (new APIRetrofit()).getAPIService().getAlphabetsService(
                 SharedPrefManager.getInstance(getContext()).getUser().getEmail(),
                 SharedPrefManager.getInstance(getContext()).getUser().getAuthentication_token(),
@@ -74,6 +75,8 @@ public class ListAlphabetFragment extends Fragment{
                                     && (position != 48) && (position != 50)
                                     && (position != 51) && (position != 52)
                                     && (position != 53)) {
+                                createHistoryAlphabet(response.body().get(position).getId(),
+                                        response.body().get(position).getJapanese());
                                 Intent intent_to_hiragana = new Intent(getContext(), AlphabetImageActivity.class);
                                 Bundle bundle = new Bundle();
                                 bundle.putInt("alphabet_id_data", response.body().get(position).getId());
@@ -93,6 +96,8 @@ public class ListAlphabetFragment extends Fragment{
                                     && (position != 66) && (position != 68)
                                     && (position != 71) && (position != 73)
                                     && (position != 76) && (position != 78)) {
+                                createHistoryAlphabet(response.body().get(position).getId(),
+                                        response.body().get(position).getJapanese());
                                 Intent intent_to_hiragana = new Intent(getContext(), AlphabetImageActivity.class);
                                 Bundle bundle = new Bundle();
                                 bundle.putInt("alphabet_id_data", response.body().get(position).getId());
@@ -111,12 +116,13 @@ public class ListAlphabetFragment extends Fragment{
             }
         });
     }
-/*
-    private void createHistoryAlphabet(int alphabetID){
+
+    // Create history alphabet
+    private void createHistoryAlphabet(int alphabetID, String alphabet_content){
         Call<HistoryModel> call_history_lesson = (new APIRetrofit()).getAPIService().createHistoryService(
                 SharedPrefManager.getInstance(getContext()).getUser().getEmail(),
                 SharedPrefManager.getInstance(getContext()).getUser().getAuthentication_token(),
-                "alphabet", alphabetID);
+                "alphabet", alphabetID, alphabet_content);
         call_history_lesson.enqueue(new Callback<HistoryModel>() {
             @Override
             public void onResponse(Call<HistoryModel> call, Response<HistoryModel> response) {
@@ -128,5 +134,5 @@ public class ListAlphabetFragment extends Fragment{
 
             }
         });
-    }*/
+    }
 }
