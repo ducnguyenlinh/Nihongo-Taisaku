@@ -102,7 +102,7 @@ public class HomeActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        int classify;
+        final int classifyLesson;
         Intent intent = new Intent(HomeActivity.this, LessonActivity.class);
 
         switch (item.getItemId()){
@@ -111,14 +111,14 @@ public class HomeActivity extends AppCompatActivity
                 overridePendingTransition(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
                 break;
             case R.id.nav_minanoNihongo:
-                classify = 0;
-                intent.putExtra("classify", classify);
+                classifyLesson = 0;
+                intent.putExtra("classifyLesson", classifyLesson);
                 startActivity(intent);
                 overridePendingTransition(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
                 break;
             case R.id.nav_mimikaraOboeruN3:
-                classify = 1;
-                intent.putExtra("classify", classify);
+                classifyLesson = 1;
+                intent.putExtra("classifyLesson", classifyLesson);
                 startActivity(intent);
                 overridePendingTransition(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
                 break;

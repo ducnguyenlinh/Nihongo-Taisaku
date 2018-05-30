@@ -29,7 +29,7 @@ import retrofit2.Response;
 
 public class ListVocabulary_Activity extends AppCompatActivity {
     ListVocabularyAdapter listVocabularyAdapter;
-    private int lessonID;
+    private int lessonID, classifyLesson;
 
     RecyclerView rclVocabularies, rclHistories;
     HistoryAdapter historyAdapter;
@@ -40,16 +40,18 @@ public class ListVocabulary_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_list_vocabulary_);
 
         lessonID = getIntent().getIntExtra("lesson_id", 0);
+        classifyLesson = getIntent().getIntExtra("classifyLesson", 0);
         setTitle(getIntent().getStringExtra("lesson_content"));
 
         rclVocabularies = (RecyclerView) findViewById(R.id.rclListVocabulary);
         rclVocabularies.setHasFixedSize(true);
         rclVocabularies.setLayoutManager(new GridLayoutManager(this, 2));
 
-        getVocabularies(lessonID);
+        getListVocabularyLocal(lessonID);
     }
 
-    private void getVocabularies(int lessonID){
+    //Get list vocabylary
+    private void getListVocabularyLocal(int lessonID){
         Call<ArrayList<VocabularyModel>> call_vocabularies = (new APIRetrofit()).getAPIService().getVocabulariesService(
                 SharedPrefManager.getInstance(ListVocabulary_Activity.this).getUser().getEmail(),
                 SharedPrefManager.getInstance(ListVocabulary_Activity.this).getUser().getAuthentication_token(),
@@ -67,7 +69,7 @@ public class ListVocabulary_Activity extends AppCompatActivity {
                     @Override
                     public void onItemClick(int position) {
                         createHistoryVocabulary(response.body().get(position).getId(),
-                                response.body().get(position).getJapanese());
+                                response.body().get(position).getJapanese(), classifyLesson);
                         Intent it_vocabularyActivity = new Intent(ListVocabulary_Activity.this,
                                 VocabularyActivity.class);
                         it_vocabularyActivity.putExtra("vocabulary_id", response.body().get(position).getId());
@@ -84,8 +86,14 @@ public class ListVocabulary_Activity extends AppCompatActivity {
         });
     }
 
-    private void createHistoryVocabulary(int lessonID, String objectContent){
-        String object_class = "vocabulary";
+    //Create history alphabet
+    private void createHistoryVocabulary(int lessonID, String objectContent, int mClassifyLesson){
+        String object_class = "";
+        if (mClassifyLesson == 0)
+            object_class = "vocabulary_0";
+        else if (mClassifyLesson == 1)
+            object_class = "vocabulary_1";
+
         Call<HistoryModel> call_history_lesson = (new APIRetrofit()).getAPIService().createHistoryService(
                 SharedPrefManager.getInstance(ListVocabulary_Activity.this).getUser().getEmail(),
                 SharedPrefManager.getInstance(ListVocabulary_Activity.this).getUser().getAuthentication_token(),
@@ -104,8 +112,12 @@ public class ListVocabulary_Activity extends AppCompatActivity {
     }
 
     // Get History Lesson
-    private void getHistoryVocabulary(){
-        String object_class = "vocabulary";
+    private void getHistoryVocabulary(int mClassifyLesson){
+        String object_class = "";
+        if (mClassifyLesson == 0)
+            object_class = "vocabulary_0";
+        else if (mClassifyLesson == 1)
+            object_class = "vocabulary_1";
 
         Call<ArrayList<HistoryModel>> call_histories_lesson = (new APIRetrofit()).getAPIService().getHistoriesService(
                 SharedPrefManager.getInstance(ListVocabulary_Activity.this).getUser().getEmail(),
@@ -128,7 +140,7 @@ public class ListVocabulary_Activity extends AppCompatActivity {
 
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(ListVocabulary_Activity.this);
                 alertDialog.setView(v);
-                alertDialog.setTitle("Lesson History");
+                alertDialog.setTitle("Vocabulary History");
                 alertDialog.setPositiveButton("OK", null);
                 alertDialog.show();
             }
@@ -154,7 +166,7 @@ public class ListVocabulary_Activity extends AppCompatActivity {
                 overridePendingTransition(R.anim.slide_in_from_left, R.anim.slide_out_to_right);
                 return true;
             case R.id.action_histories:
-                getHistoryVocabulary();
+                getHistoryVocabulary(classifyLesson);
                 return true;
         }
         return false;

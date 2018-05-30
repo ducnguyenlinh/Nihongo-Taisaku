@@ -34,7 +34,7 @@ public class LessonActivity extends AppCompatActivity {
     LessonAdapter lessonAdapter;
     RecyclerView rclLesson, rclHistories;
     HistoryAdapter historyAdapter;
-    private int classify = 0;
+    private int classifyLesson = 0;
     private String object_class = "";
 
     @Override
@@ -42,10 +42,10 @@ public class LessonActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lesson);
 
-        classify = getIntent().getIntExtra("classify", 0);
-        if (classify == 0)
+        classifyLesson = getIntent().getIntExtra("classifyLesson", 0);
+        if (classifyLesson == 0)
             setTitle("Minano Nihongo");
-        else if (classify == 1)
+        else if (classifyLesson == 1)
             setTitle("Mimikara Oboeru N3");
         rclLesson = findViewById(R.id.rclListLesson);
         rclLesson.setHasFixedSize(true);
@@ -55,7 +55,7 @@ public class LessonActivity extends AppCompatActivity {
         Call<ArrayList<LessonModel>> call = (new APIRetrofit()).getAPIService().getLessonsService(
                 SharedPrefManager.getInstance(LessonActivity.this).getUser().getEmail(),
                 SharedPrefManager.getInstance(LessonActivity.this).getUser().getAuthentication_token(),
-                classify);
+                classifyLesson);
 
         call.enqueue(new Callback<ArrayList<LessonModel>>() {
             @Override
@@ -73,12 +73,13 @@ public class LessonActivity extends AppCompatActivity {
                     @Override
                     public void onItemClick(int position) {
                        createUserLesson(response.body().get(position).getId());
-                       createHistoryLesson(classify,response.body().get(position).getId(),
+                       createHistoryLesson(classifyLesson,response.body().get(position).getId(),
                                response.body().get(position).getContent());
-                       Intent it_vocabulary = new Intent(LessonActivity.this, ListVocabulary_Activity.class);
-                       it_vocabulary.putExtra("lesson_id", response.body().get(position).getId());
-                       it_vocabulary.putExtra("lesson_content", response.body().get(position).getContent());
-                       startActivity(it_vocabulary);
+                       Intent it_list_vocabulary = new Intent(LessonActivity.this, ListVocabulary_Activity.class);
+                       it_list_vocabulary.putExtra("classifyLesson", classifyLesson);
+                       it_list_vocabulary.putExtra("lesson_id", response.body().get(position).getId());
+                       it_list_vocabulary.putExtra("lesson_content", response.body().get(position).getContent());
+                       startActivity(it_list_vocabulary);
                        overridePendingTransition(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
                     }
                 });
@@ -111,10 +112,10 @@ public class LessonActivity extends AppCompatActivity {
     }
 
     // Create History_Lesson
-    private void createHistoryLesson(int mClassify, int lessonID, String objectContent){
-        if (mClassify == 0)
+    private void createHistoryLesson(int mClassifyLesson, int lessonID, String objectContent){
+        if (mClassifyLesson == 0)
             object_class = "lesson_0";
-        else if (mClassify == 1)
+        else if (mClassifyLesson == 1)
             object_class = "lesson_1";
         Call<HistoryModel> call_history_lesson = (new APIRetrofit()).getAPIService().createHistoryService(
                 SharedPrefManager.getInstance(LessonActivity.this).getUser().getEmail(),
@@ -134,10 +135,10 @@ public class LessonActivity extends AppCompatActivity {
     }
 
     // Get History Lesson
-    private void getHistoriesLesson(int mClassify){
-        if (mClassify == 0)
+    private void getHistoriesLesson(int mClassifyLesson){
+        if (mClassifyLesson == 0)
             object_class = "lesson_0";
-        else if (mClassify == 1)
+        else if (mClassifyLesson == 1)
             object_class = "lesson_1";
         Call<ArrayList<HistoryModel>> call_histories_lesson = (new APIRetrofit()).getAPIService().getHistoriesService(
                 SharedPrefManager.getInstance(LessonActivity.this).getUser().getEmail(),
@@ -185,7 +186,7 @@ public class LessonActivity extends AppCompatActivity {
                 overridePendingTransition(R.anim.slide_in_from_left, R.anim.slide_out_to_right);
                 return true;
             case R.id.action_histories:
-                getHistoriesLesson(classify);
+                getHistoriesLesson(classifyLesson);
                 return true;
         }
         return false;

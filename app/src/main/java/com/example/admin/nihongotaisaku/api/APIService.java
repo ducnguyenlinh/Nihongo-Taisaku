@@ -7,6 +7,7 @@ import com.example.admin.nihongotaisaku.models.FeedbackModel;
 import com.example.admin.nihongotaisaku.models.HistoryModel;
 import com.example.admin.nihongotaisaku.models.LessonModel;
 import com.example.admin.nihongotaisaku.models.ResultUser;
+import com.example.admin.nihongotaisaku.models.ResultUserAlphabet;
 import com.example.admin.nihongotaisaku.models.ResultUserLesson;
 import com.example.admin.nihongotaisaku.models.SentenceModel;
 import com.example.admin.nihongotaisaku.models.VocabularyModel;
@@ -53,12 +54,21 @@ public interface APIService {
             @Field("_method") String _method
     );
 
-    //GET alphabets
+    //GET alphabet
     @GET("api/alphabets.json")
     Call<ArrayList<AlphabetModel>> getAlphabetsService(
             @Query("user_email") String email,
             @Query("user_token]") String token,
             @Query("classify") int classify
+    );
+
+    //POST user_alphabet
+    @FormUrlEncoded
+    @POST("api/user_alphabets.json")
+    Call<ResultUserAlphabet> createUserAlphabetService(
+            @Field("user_email") String email,
+            @Field("user_token]") String token,
+            @Field("alphabet_id") int alphabet_id
     );
 
     //GET alphabet image

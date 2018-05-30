@@ -14,13 +14,12 @@ import android.view.animation.LayoutAnimationController;
 
 import com.example.admin.nihongotaisaku.R;
 import com.example.admin.nihongotaisaku.activities.AlphabetImageActivity;
-import com.example.admin.nihongotaisaku.activities.LessonActivity;
 import com.example.admin.nihongotaisaku.adapters.AlphabetImageAdapter;
 import com.example.admin.nihongotaisaku.api.APIRetrofit;
 import com.example.admin.nihongotaisaku.helper.SharedPrefManager;
 import com.example.admin.nihongotaisaku.models.AlphabetModel;
 import com.example.admin.nihongotaisaku.models.HistoryModel;
-import com.example.admin.nihongotaisaku.models.ResultUserLesson;
+import com.example.admin.nihongotaisaku.models.ResultUserAlphabet;
 
 import java.util.ArrayList;
 
@@ -75,7 +74,8 @@ public class ListAlphabetFragment extends Fragment{
                                     && (position != 48) && (position != 50)
                                     && (position != 51) && (position != 52)
                                     && (position != 53)) {
-                                createHistoryAlphabet(response.body().get(position).getId(),
+                                createUserAlphabetLocal(response.body().get(position).getId());
+                                createHistoryAlphabetLocal(response.body().get(position).getId(),
                                         response.body().get(position).getJapanese());
                                 Intent intent_to_hiragana = new Intent(getContext(), AlphabetImageActivity.class);
                                 Bundle bundle = new Bundle();
@@ -96,7 +96,8 @@ public class ListAlphabetFragment extends Fragment{
                                     && (position != 66) && (position != 68)
                                     && (position != 71) && (position != 73)
                                     && (position != 76) && (position != 78)) {
-                                createHistoryAlphabet(response.body().get(position).getId(),
+                                createUserAlphabetLocal(response.body().get(position).getId());
+                                createHistoryAlphabetLocal(response.body().get(position).getId(),
                                         response.body().get(position).getJapanese());
                                 Intent intent_to_hiragana = new Intent(getContext(), AlphabetImageActivity.class);
                                 Bundle bundle = new Bundle();
@@ -117,8 +118,27 @@ public class ListAlphabetFragment extends Fragment{
         });
     }
 
+    // Create user_alphabet
+    private void createUserAlphabetLocal(int alphabetID){
+        Call<ResultUserAlphabet> call_user_alphabet = (new APIRetrofit()).getAPIService().createUserAlphabetService(
+                SharedPrefManager.getInstance(getContext()).getUser().getEmail(),
+                SharedPrefManager.getInstance(getContext()).getUser().getAuthentication_token(),
+                alphabetID);
+        call_user_alphabet.enqueue(new Callback<ResultUserAlphabet>() {
+            @Override
+            public void onResponse(Call<ResultUserAlphabet> call, Response<ResultUserAlphabet> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<ResultUserAlphabet> call, Throwable t) {
+
+            }
+        });
+    }
+
     // Create history alphabet
-    private void createHistoryAlphabet(int alphabetID, String alphabet_content){
+    private void createHistoryAlphabetLocal(int alphabetID, String alphabet_content){
         Call<HistoryModel> call_history_lesson = (new APIRetrofit()).getAPIService().createHistoryService(
                 SharedPrefManager.getInstance(getContext()).getUser().getEmail(),
                 SharedPrefManager.getInstance(getContext()).getUser().getAuthentication_token(),
