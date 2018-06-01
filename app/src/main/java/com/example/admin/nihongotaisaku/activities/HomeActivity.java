@@ -1,12 +1,9 @@
 package com.example.admin.nihongotaisaku.activities;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Rect;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -163,28 +160,40 @@ public class HomeActivity extends AppCompatActivity
     }
 
     private void prepareAlbums(){
-        int[] covers = new int[]{
-                R.mipmap.ic_xeco, R.mipmap.ic_chaohoi, R.mipmap.ic_raucu, R.mipmap.ic_thethao,
-                R.mipmap.ic_dongvat, R.mipmap.ic_hoa
+        String[] listImage = new String[]{
+                "https://imgur.com/VUyi5cd.png", "https://imgur.com/TVzECIL.png",
+                "https://imgur.com/hv0NXNf.png", "https://imgur.com/HGVuUhj.png",
+                "https://imgur.com/if7XCbF.png", "https://imgur.com/A65s0qn.png",
+                "https://imgur.com/isGZ8JH.png", "https://imgur.com/ofyPAVG.png",
+                "https://imgur.com/Zv0Np7x.png", "https://imgur.com/oIIVJUd.png"
         };
 
-        AlbumModel a = new AlbumModel("XE CỘ", covers[0], 10);
-        arrAlbum.add(a);
+        String[] listJapanese = new String[]{
+                "はじめまして", "おはよう", "こんにちは", "こんばんは", "さよなら", "ありがとう", "すみません",
+                "おやすみ", "どういたしまして", "ひさしぶり"
+        };
+        String[] listMean = new String[]{
+                "Rất vui khi được gặp bạn", "Chào buổi sáng", "Chào buổi trưa", "Chào buổi tối",
+                "Tạm biệt", "Cảm ơn", "Xin lỗi", "Chúc ngủ ngon", "Không có gì", "Lâu rồi không gặp bạn"
+        };
 
-        a = new AlbumModel("CHÀO HỎI", covers[1], 10);
-        arrAlbum.add(a);
+        String[] listSound = new String[]{
+                "https://storage.dekiru.vn//Data/2016/11/15/hajimemashite-636148229080394557.mp3",
+                "https://storage.dekiru.vn//Data/2016/11/15/ohayo-636148228403231171.mp3",
+                "https://storage.dekiru.vn//Data/2016/11/15/konnichiwa-636148228670183242.mp3",
+                "https://storage.dekiru.vn//Data/2016/11/15/konbanwa-636148228808197709.mp3",
+                "https://storage.dekiru.vn//Data/2016/11/15/sayonara-636148229364447140.mp3",
+                "https://storage.dekiru.vn//Data/2016/11/15/arigatou-636148229605141518.mp3",
+                "https://storage.dekiru.vn/Data/2016/11/15/sumimasen-636148229215194508.mp3",
+                "https://storage.dekiru.vn//Data/2016/11/15/oyasumi-636148228949170303.mp3",
+                "https://storage.dekiru.vn//Data/2016/11/15/douitashimashite-636148229724401637.mp3",
+                "https://storage.dekiru.vn//Data/2016/11/15/hisashiburi-636148229850998875.mp3"
+        };
 
-        a = new AlbumModel("RAU CỦ", covers[2], 5);
-        arrAlbum.add(a);
-
-        a = new AlbumModel("THỂ THAO", covers[3], 8);
-        arrAlbum.add(a);
-
-        a = new AlbumModel("ĐỘNG VẬT", covers[4], 6);
-        arrAlbum.add(a);
-
-        a = new AlbumModel("HOA", covers[5], 15);
-        arrAlbum.add(a);
+        for (int i = 0; i<10; i++){
+            AlbumModel a = new AlbumModel(listImage[i], listJapanese[i], listMean[i], listSound[i]);
+            arrAlbum.add(a);
+        }
 
         albumsAdapter.notifyDataSetChanged();
     }

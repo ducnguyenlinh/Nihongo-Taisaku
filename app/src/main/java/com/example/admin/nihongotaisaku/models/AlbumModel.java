@@ -1,40 +1,47 @@
 package com.example.admin.nihongotaisaku.models;
 
 public class AlbumModel {
-    private String nameAlbum;
-    private int thumbnail;
-    private int numOfImages;
+    private String image, japanese, mean, sound;
 
     public AlbumModel() {
     }
 
-    public AlbumModel(String nameAlbum, int thumbnail, int numOfImages) {
-        this.nameAlbum = nameAlbum;
-        this.thumbnail = thumbnail;
-        this.numOfImages = numOfImages;
+    public AlbumModel(String image, String japanese, String mean, String sound) {
+        this.image = image;
+        this.japanese = japanese;
+        this.mean = mean;
+        this.sound = sound;
     }
 
-    public String getNameAlbum() {
-        return nameAlbum;
+    public String getJapanese() {
+        return japanese;
     }
 
-    public void setNameAlbum(String nameAlbum) {
-        this.nameAlbum = nameAlbum;
+    public void setJapanese(String japanese) {
+        this.japanese = japanese;
     }
 
-    public int getThumbnail() {
-        return thumbnail;
+    public String getMean() {
+        return mean;
     }
 
-    public void setThumbnail(int thumbnail) {
-        this.thumbnail = thumbnail;
+    public void setMean(String mean) {
+        this.mean = mean;
     }
 
-    public int getNumOfImages() {
-        return numOfImages;
+    public String getImage() {
+        return image;
     }
 
-    public void setNumOfImages(int numOfImages) {
-        this.numOfImages = numOfImages;
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getSound() {
+        return sound;
+    }
+
+    public void setSound(String sound) {
+        this.sound = sound;
     }
 }
