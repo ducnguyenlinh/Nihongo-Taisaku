@@ -2,9 +2,13 @@ package com.example.admin.nihongotaisaku.activities;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Point;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.annotation.ColorRes;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
@@ -13,6 +17,7 @@ import android.os.Bundle;
 import android.view.Display;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -36,6 +41,18 @@ public class SignInActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
+
+        if (isConnected() ==  false) {
+            Toast.makeText(SignInActivity.this, "Thiết bị của bạn không được kết nối Internet \\n " +
+                    "hãy kết nối wifi hoặc 3g và thử lại", Toast.LENGTH_LONG).show();
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(SignInActivity.this);
+            alertDialog.setMessage("Thiết bị của bạn không được kết nối Internet \\n " +
+                    "hãy kết nối wifi hoặc 3g và thử lại");
+            alertDialog.setTitle("Message");
+            alertDialog.setPositiveButton("OK", null);
+            alertDialog.show();
+            return;
+        }
 
         if (SharedPrefManager.getInstance(this).isLoggedIn()){
             startActivity(new Intent(this, HomeActivity.class));
@@ -86,4 +103,15 @@ public class SignInActivity extends AppCompatActivity {
         display.getSize(size);
         return new int[]{size.x,size.y};
     }
+
+
+    public boolean isConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+            return true;
+        }
+        return false;
+    }
+
 }

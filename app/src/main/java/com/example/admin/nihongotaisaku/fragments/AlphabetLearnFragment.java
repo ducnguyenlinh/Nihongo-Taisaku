@@ -22,7 +22,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AlphabetImageFragment extends Fragment {
+public class AlphabetLearnFragment extends Fragment {
     ImageView imgAssociation, img_picture_1, img_picture_2, img_picture_3;
     TextView tvDescription;
     ViewGroup move_lyt, book_lyt;
@@ -31,7 +31,7 @@ public class AlphabetImageFragment extends Fragment {
     String str_association = "", str_description = "", str_picture_1 = "",
             str_picture_2 = "", str_picture_3 = "";
 
-    public AlphabetImageFragment() {
+    public AlphabetLearnFragment() {
     }
 
     @Nullable

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +14,7 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 
 import com.example.admin.nihongotaisaku.R;
-import com.example.admin.nihongotaisaku.activities.AlphabetImageActivity;
+import com.example.admin.nihongotaisaku.activities.AlphabetLearn_WriteActivity;
 import com.example.admin.nihongotaisaku.adapters.AlphabetImageAdapter;
 import com.example.admin.nihongotaisaku.api.APIRetrofit;
 import com.example.admin.nihongotaisaku.helper.SharedPrefManager;
@@ -77,8 +78,12 @@ public class ListAlphabetFragment extends Fragment{
                                 createUserAlphabetLocal(response.body().get(position).getId());
                                 createHistoryAlphabetLocal(response.body().get(position).getId(),
                                         response.body().get(position).getJapanese());
-                                Intent intent_to_hiragana = new Intent(getContext(), AlphabetImageActivity.class);
+                                Intent intent_to_hiragana = new Intent(getContext(), AlphabetLearn_WriteActivity.class);
                                 Bundle bundle = new Bundle();
+                                bundle.putString("soundAlphabet", response.body().get(position).getSound());
+                                bundle.putInt("classifyAlphabet", classify);
+                                bundle.putString("image_writingAlphabet", response.body().get(position).getImage_writing());
+                                bundle.putString("image_compareAlphabet", response.body().get(position).getImage_compare());
                                 bundle.putInt("alphabet_id_data", response.body().get(position).getId());
                                 bundle.putString("alphabet_japanese_data", response.body().get(position).getJapanese());
                                 intent_to_hiragana.putExtra("alphabet_data", bundle);
@@ -99,8 +104,12 @@ public class ListAlphabetFragment extends Fragment{
                                 createUserAlphabetLocal(response.body().get(position).getId());
                                 createHistoryAlphabetLocal(response.body().get(position).getId(),
                                         response.body().get(position).getJapanese());
-                                Intent intent_to_hiragana = new Intent(getContext(), AlphabetImageActivity.class);
+                                Intent intent_to_hiragana = new Intent(getContext(), AlphabetLearn_WriteActivity.class);
                                 Bundle bundle = new Bundle();
+                                bundle.putString("soundAlphabet", response.body().get(position).getSound());
+                                bundle.putInt("classifyAlphabet", classify);
+                                bundle.putString("image_writingAlphabet", response.body().get(position).getImage_writing());
+                                bundle.putString("image_compareAlphabet", response.body().get(position).getImage_compare());
                                 bundle.putInt("alphabet_id_data", response.body().get(position).getId());
                                 bundle.putString("alphabet_japanese_data", response.body().get(position).getJapanese());
                                 intent_to_hiragana.putExtra("alphabet_data", bundle);

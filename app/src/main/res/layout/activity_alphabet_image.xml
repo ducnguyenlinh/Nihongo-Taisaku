@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:mContext="com.example.admin.nihongotaisaku.activities.AlphabetImageActivity">
+    tools:mContext="com.example.admin.nihongotaisaku.activities.AlphabetLearn_WriteActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -36,6 +36,7 @@
         app:fabMenu="@menu/alphabet_fab_menu"
         app:fabDrawable="@drawable/ic_menu"
         app:fabBackgroundTint="@color/primary_dark"
-        android:layout_margin="@dimen/dimen_5dp"/>
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="@dimen/dimen_5dp"/>
 
 </android.support.design.widget.CoordinatorLayout>

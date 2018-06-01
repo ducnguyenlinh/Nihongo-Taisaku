@@ -49,7 +49,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AlphabetWritingFragment extends Fragment{
+public class AlphabetWriteFragment extends Fragment{
     ImageView img_writing;
     private CanvasView signature_canvas;
     BottomNavigationView bottomBar;
@@ -58,10 +58,11 @@ public class AlphabetWritingFragment extends Fragment{
     int alphabetID = 0;
     String str_imgWritting= "";
     String str_imgCompare = "";
+    String result_compare = "";
 
     ProgressDialog progress;
 
-    public AlphabetWritingFragment() {
+    public AlphabetWriteFragment() {
     }
 
     @Nullable
@@ -76,7 +77,12 @@ public class AlphabetWritingFragment extends Fragment{
 
         alphabetID = getArguments().getInt("alphabet_id_data");
 
-        getAlphabetWriting(alphabetID);
+        Glide.with(getContext())
+                .load(getArguments().getString("image_writingAlphabet"))
+                .asGif()
+                .crossFade()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(img_writing);
 
         bottomBar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -86,7 +92,7 @@ public class AlphabetWritingFragment extends Fragment{
                         signature_canvas.clearCanvas();
                         return true;
                     case R.id.action_compare:
-                        new LoadImage().execute(str_imgCompare);
+                        new LoadImage().execute(getArguments().getString("image_compareAlphabet"));
                         return true;
                     case R.id.action_undo:
                         signature_canvas.onClickUndo();
@@ -103,36 +109,6 @@ public class AlphabetWritingFragment extends Fragment{
         return v;
     }
 
-    private void getAlphabetWriting(int alphabetID){
-        Call<AlphabetWritingModel> call_alphabet_images = (new APIRetrofit()).getAPIService().
-                getAlphabetWritingService(
-                        alphabetID,
-                        SharedPrefManager.getInstance(getContext()).getUser().getEmail(),
-                        SharedPrefManager.getInstance(getContext()).getUser().getAuthentication_token()
-
-                );
-        call_alphabet_images.enqueue(new Callback<AlphabetWritingModel>() {
-            @Override
-            public void onResponse(Call<AlphabetWritingModel> call, Response<AlphabetWritingModel> response) {
-                str_imgWritting = response.body().getImage_writing();
-                str_imgCompare = response.body().getImage_compare();
-
-                Glide.with(getContext())
-                        .load(str_imgWritting)
-                        .asGif()
-                        .crossFade()
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .into(img_writing);
-            }
-
-            @Override
-            public void onFailure(Call<AlphabetWritingModel> call, Throwable t) {
-
-            }
-        });
-    }
-
-
     @SuppressLint("ResourceAsColor")
     public void compareMats(Bitmap bmMyView,Bitmap bitmap){
         Bitmap bitmap1 = bmMyView;
@@ -141,11 +117,18 @@ public class AlphabetWritingFragment extends Fragment{
         Bitmap bitmap2 = bitmap;
         bitmap2 = bitmap2.copy(Bitmap.Config.ARGB_8888, true);
 
+        bitmap1 = Bitmap.createScaledBitmap(bitmap1, 300, 300, true);
+        bitmap2 = Bitmap.createScaledBitmap(bitmap2, 300, 300, true);
+
         mat1 = new Mat();
         mat2 = new Mat();
 
         Utils.bitmapToMat(bitmap1, mat1, false);
         Utils.bitmapToMat(bitmap2, mat2, false);
+
+
+        Imgproc.cvtColor(mat1, mat1, Imgproc.COLOR_BGR2RGB);
+        Imgproc.cvtColor(mat2, mat2, Imgproc.COLOR_BGR2RGB);
 
         MatOfKeyPoint keypoints1 = new MatOfKeyPoint();
         MatOfKeyPoint keypoints2 = new MatOfKeyPoint();
@@ -153,49 +136,63 @@ public class AlphabetWritingFragment extends Fragment{
         Mat descriptors2 = new Mat();
 
         //Definition of ORB keypoint detector and descriptor extractors
-        FeatureDetector detector = FeatureDetector.create(FeatureDetector.ORB);
+        FeatureDetector detector = FeatureDetector.create(FeatureDetector.PYRAMID_FAST);
         DescriptorExtractor extractor = DescriptorExtractor.create(DescriptorExtractor.ORB);
 
         //Detect keypoints
         detector.detect(mat1, keypoints1);
         detector.detect(mat2, keypoints2);
 
-        //Extract descriptors
-        extractor.compute(mat1, keypoints1, descriptors1);
-        extractor.compute(mat2, keypoints2, descriptors2);
-
-        //Definition of descriptor matcher
-        DescriptorMatcher matcher = DescriptorMatcher.create(DescriptorMatcher.BRUTEFORCE_HAMMING);
-
-        //Match points of two images
-        MatOfDMatch matches = new MatOfDMatch();
-        matcher.match(descriptors1,descriptors2 ,matches);
-
         Log.d("LOG!", "number of query Keypoints1 = " + keypoints1.size());
         Log.d("LOG!", "number of query Keypoints2 = " + keypoints2.size());
 
-        Log.d("LOG!", "number of descriptors= " + descriptors1.size());
-        Log.d("LOG!",
-                "number of dupDescriptors= " + descriptors2.size());
+        if ( ((int)keypoints1.size().height)*100/((int)keypoints2.size().height) < 10){
+            result_compare = 0 + "%";
+            openCaptureDialog(bitmap2, bitmap1, result_compare);
+        }
+        else {
+            //Extract descriptors
+            extractor.compute(mat1, keypoints1, descriptors1);
+            extractor.compute(mat2, keypoints2, descriptors2);
 
-        Log.d("LOG!", "Matches Size " + matches.size());
+            //Definition of descriptor matcher
+            DescriptorMatcher matcher = DescriptorMatcher.create(DescriptorMatcher.BRUTEFORCE_HAMMING);
 
-        // Filter matches by distance
-        MatOfDMatch filtered = filterMatchesByDistance(matches);
+            //Match points of two images
+            MatOfDMatch matches = new MatOfDMatch();
+            matcher.match(descriptors1, descriptors2, matches);
 
-        int total = (int) matches.size().height;
-        int Match= (int) filtered.size().height;
-        Log.d("LOG", "total:" + total + " Match:"+Match);
+            Log.d("LOG!", "number of query Keypoints1 = " + keypoints1.size());
+            Log.d("LOG!", "number of query Keypoints2 = " + keypoints2.size());
 
-        String compare = String.valueOf((Match*100)/total + "%");
-        openCaptureDialog(bitmap2, bitmap1, compare);
+            Log.d("LOG!", "number of descriptors= " + descriptors1.size());
+            Log.d("LOG!",
+                    "number of dupDescriptors= " + descriptors2.size());
+
+            Log.d("LOG!", "Matches Size " + matches.size());
+
+            // Filter matches by distance
+            MatOfDMatch filtered = filterMatchesByDistance(matches);
+
+            int total = (int) matches.size().height;
+            int Match = (int) filtered.size().height;
+            Log.d("LOG", "total:" + total + " Match:" + Match);
+
+            float key1 = (float) keypoints1.size().height;
+            float key2 = (float) keypoints2.size().height;
+
+            float result = (key2-key1)*Match*100/(key2*total);
+
+            result_compare = String.valueOf((Match * 100) / total + "%");
+            openCaptureDialog(bitmap2, bitmap1, result+ "%");
+        }
     }
 
     static MatOfDMatch filterMatchesByDistance(MatOfDMatch matches){
         List<DMatch> matches_original = matches.toList();
         List<DMatch> matches_filtered = new ArrayList<DMatch>();
 
-        int DIST_LIMIT = 30;
+        int DIST_LIMIT = 50;
         // Check all the matches distance and if it passes add to list of filtered matches
         Log.d("DISTFILTER", "ORG SIZE:" + matches_original.size() + "");
         for (int i = 0; i < matches_original.size(); i++) {

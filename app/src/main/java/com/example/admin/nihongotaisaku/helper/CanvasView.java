@@ -26,8 +26,7 @@ public class CanvasView extends View implements View.OnTouchListener{
     Context context;
     private Paint mPaint;
     private float mX, mY;
-    private static final float TOLERANCE = 20;
-    Matrix identityMatrix = new Matrix();
+    private static final float TOLERANCE = 5;
 
     private ArrayList<Path> paths = new ArrayList<Path>();
     private ArrayList<Path> undonePaths = new ArrayList<Path>();

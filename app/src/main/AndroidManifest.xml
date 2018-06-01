@@ -3,6 +3,7 @@
     package="com.example.admin.nihongotaisaku"
     android:installLocation="preferExternal">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -33,7 +34,7 @@
 
         <!-- AlphabetImage Activity -->
         <activity
-            android:name=".activities.AlphabetImageActivity"
+            android:name=".activities.AlphabetLearn_WriteActivity"
             android:label="@string/title_activity_writing_hiragana"
             android:parentActivityName=".activities.AlphabetActivity"
             android:theme="@style/AppTheme.NoActionBar.Fake">

@@ -26,6 +26,7 @@ public class AlphabetImageAdapter extends RecyclerView.Adapter<AlphabetImageAdap
         this.context = context;
         this.arrAlph = arrAlph;
         element.setJapanese(""); element.setSpell("");
+        element.setImage_compare(""); element.setImage_writing("");
         if (classify == 0 || classify == 1){
             arrAlph.add(36, element);
             arrAlph.add(38, element);
