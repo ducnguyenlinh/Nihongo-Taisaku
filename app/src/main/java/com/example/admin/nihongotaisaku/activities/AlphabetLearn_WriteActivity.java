@@ -1,10 +1,13 @@
 package com.example.admin.nihongotaisaku.activities;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.design.internal.NavigationMenu;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,19 +16,23 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.admin.nihongotaisaku.R;
+import com.example.admin.nihongotaisaku.adapters.FeedbackAdapter;
 import com.example.admin.nihongotaisaku.api.APIRetrofit;
 import com.example.admin.nihongotaisaku.fragments.AlphabetLearnFragment;
 import com.example.admin.nihongotaisaku.fragments.AlphabetWriteFragment;
 import com.example.admin.nihongotaisaku.helper.SharedPrefManager;
-import com.example.admin.nihongotaisaku.models.AlphabetImageModel;
+import com.example.admin.nihongotaisaku.models.FeedbackModel;
 
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import io.github.yavski.fabspeeddial.FabSpeedDial;
 import retrofit2.Call;
@@ -56,7 +63,7 @@ public class AlphabetLearn_WriteActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_alphabet_image);
+        setContentView(R.layout.activity_alphabet_learn_write);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -104,9 +111,6 @@ public class AlphabetLearn_WriteActivity extends AppCompatActivity {
             btnWrite.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (classifyAlphabet == 2 || classifyAlphabet == 3){
-                        fabSpeedDial.setEnabled(false);
-                    }
                     alphabetWriteFragment = new AlphabetWriteFragment();
                     alphabetWriteFragment.setArguments(bundle);
                     getSupportFragmentManager()
@@ -127,7 +131,18 @@ public class AlphabetLearn_WriteActivity extends AppCompatActivity {
             @Override
             public boolean onMenuItemSelected(MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
+                    case R.id.action_look_feedbacks:
+                        getFeedbackAlphabetLocal(alphabetID);
+                        break;
+                    case R.id.action_feedback:
+                        dialogFeedbackAlphabet();
+                        break;
                     case R.id.action_learn_fab:
+                        if (classifyAlphabet == 2 || classifyAlphabet == 3){
+                            Toast.makeText(AlphabetLearn_WriteActivity.this,
+                                    "Chữ cái này không có phần học", Toast.LENGTH_LONG).show();
+                            break;
+                        }
                         alphabetLearnFragment = new AlphabetLearnFragment();
                         alphabetLearnFragment.setArguments(bundle);
                         getSupportFragmentManager()
@@ -209,5 +224,81 @@ public class AlphabetLearn_WriteActivity extends AppCompatActivity {
             Log.d(TAG, "OpenCV library found inside package. Using it!");
             mLoaderCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS);
         }
+    }
+
+    private void dialogFeedbackAlphabet(){
+        View v = LayoutInflater.from(AlphabetLearn_WriteActivity.this).inflate(R.layout.dialog_create_feedback, null);
+        EditText edtFeedback = (EditText) v.findViewById(R.id.edtFeedback);
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(AlphabetLearn_WriteActivity.this);
+        alertDialog.setView(v);
+        alertDialog.setTitle("Phản hồi");
+        alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                createFeedbackAlphabetLocal(alphabetID, edtFeedback.getText().toString());
+            }
+        });
+
+        alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        alertDialog.show();
+    }
+    //Create Feedback
+    private void createFeedbackAlphabetLocal(int mAlphabetID, String content){
+        final String object_class = "alphabet";
+        Call<FeedbackModel> call_feedback_vocabulary = (new APIRetrofit()).getAPIService().createFeedbackService(
+                SharedPrefManager.getInstance(AlphabetLearn_WriteActivity.this).getUser().getEmail(),
+                SharedPrefManager.getInstance(AlphabetLearn_WriteActivity.this).getUser().getAuthentication_token(),
+                object_class, mAlphabetID, content
+        );
+        call_feedback_vocabulary.enqueue(new Callback<FeedbackModel>() {
+            @Override
+            public void onResponse(Call<FeedbackModel> call, Response<FeedbackModel> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<FeedbackModel> call, Throwable t) {
+
+            }
+        });
+    }
+
+    //Get Feedback
+    private void getFeedbackAlphabetLocal(int mAlphabetID){
+        final String object_class = "alphabet";
+        Call<ArrayList<FeedbackModel>> call_feedbacks = (new APIRetrofit()).getAPIService().getFeedbacksService(
+                SharedPrefManager.getInstance(AlphabetLearn_WriteActivity.this).getUser().getEmail(),
+                SharedPrefManager.getInstance(AlphabetLearn_WriteActivity.this).getUser().getAuthentication_token(),
+                object_class, mAlphabetID
+        );
+        call_feedbacks.enqueue(new Callback<ArrayList<FeedbackModel>>() {
+            @Override
+            public void onResponse(Call<ArrayList<FeedbackModel>> call, Response<ArrayList<FeedbackModel>> response) {
+                View v = LayoutInflater.from(AlphabetLearn_WriteActivity.this).inflate(R.layout.dialog_feedbacks, null);
+                RecyclerView rclFeedbacks = (RecyclerView) v.findViewById(R.id.rclFeedbacks);
+                rclFeedbacks.setHasFixedSize(true);
+                rclFeedbacks.setLayoutManager(new LinearLayoutManager(AlphabetLearn_WriteActivity.this));
+
+                FeedbackAdapter feedbackAdapter = new FeedbackAdapter(AlphabetLearn_WriteActivity.this, response.body());
+                rclFeedbacks.setAdapter(feedbackAdapter);
+                feedbackAdapter.notifyDataSetChanged();
+
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(AlphabetLearn_WriteActivity.this);
+                alertDialog.setView(v);
+                alertDialog.setTitle("Xem phản hồi");
+                alertDialog.setPositiveButton("OK", null);
+                alertDialog.show();
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<FeedbackModel>> call, Throwable t) {
+
+            }
+        });
     }
 }

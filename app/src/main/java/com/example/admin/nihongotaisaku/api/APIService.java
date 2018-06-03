@@ -2,7 +2,6 @@ package com.example.admin.nihongotaisaku.api;
 
 import com.example.admin.nihongotaisaku.models.AlphabetImageModel;
 import com.example.admin.nihongotaisaku.models.AlphabetModel;
-import com.example.admin.nihongotaisaku.models.AlphabetWritingModel;
 import com.example.admin.nihongotaisaku.models.FeedbackModel;
 import com.example.admin.nihongotaisaku.models.HistoryModel;
 import com.example.admin.nihongotaisaku.models.LessonModel;
@@ -74,14 +73,6 @@ public interface APIService {
     //GET alphabet image
     @GET("api/alphabet_images/{id}.json")
     Call<AlphabetImageModel> getAlphabetImagesService(
-            @Path("id") int id,
-            @Query("user_email") String email,
-            @Query("user_token") String token
-    );
-
-    //GET alphabet writing
-    @GET("api/alphabet_writings/{id}.json")
-    Call<AlphabetWritingModel> getAlphabetWritingService(
             @Path("id") int id,
             @Query("user_email") String email,
             @Query("user_token") String token

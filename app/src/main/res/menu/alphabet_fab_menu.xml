@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/action_look_feedbacks"
+        android:title="Xem phản hồi khác"
+        android:icon="@drawable/ic_look"/>
+
+    <item android:id="@+id/action_feedback"
+        android:title="Phản hồi"
+        android:icon="@drawable/ic_edit"/>
+
     <item android:id="@+id/action_learn_fab"
-        android:title="Learn"
+        android:title="Học"
         android:icon="@drawable/ic_image"/>
+
     <item android:id="@+id/action_write_fab"
-        android:title="Write"
+        android:title="Tập viết"
         android:icon="@drawable/ic_edit"/>
 </menu>

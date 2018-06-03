@@ -11,7 +11,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -24,13 +23,10 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.admin.nihongotaisaku.R;
-import com.example.admin.nihongotaisaku.api.APIRetrofit;
+import com.example.admin.nihongotaisaku.activities.AlphabetLearn_WriteActivity;
 import com.example.admin.nihongotaisaku.helper.CanvasView;
-import com.example.admin.nihongotaisaku.helper.SharedPrefManager;
-import com.example.admin.nihongotaisaku.models.AlphabetWritingModel;
 
 import org.opencv.android.Utils;
-import org.opencv.core.CvType;
 import org.opencv.core.DMatch;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfDMatch;
@@ -45,9 +41,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class AlphabetWriteFragment extends Fragment{
     ImageView img_writing;
@@ -56,8 +49,6 @@ public class AlphabetWriteFragment extends Fragment{
     Mat mat1, mat2;
 
     int alphabetID = 0;
-    String str_imgWritting= "";
-    String str_imgCompare = "";
     String result_compare = "";
 
     ProgressDialog progress;
@@ -92,6 +83,14 @@ public class AlphabetWriteFragment extends Fragment{
                         signature_canvas.clearCanvas();
                         return true;
                     case R.id.action_compare:
+                        if (getArguments().getInt("classifyAlphabet") == 2 ||
+                                getArguments().getInt("classifyAlphabet") == 3){
+                            if (getArguments().getInt("positonAlphabet") > 24) {
+                                Toast.makeText(getContext(),
+                                        "Chữ cái này không có phần so sánh", Toast.LENGTH_LONG).show();
+                                return true;
+                            }
+                        }
                         new LoadImage().execute(getArguments().getString("image_compareAlphabet"));
                         return true;
                     case R.id.action_undo:
@@ -147,7 +146,7 @@ public class AlphabetWriteFragment extends Fragment{
         Log.d("LOG!", "number of query Keypoints2 = " + keypoints2.size());
 
         if ( ((int)keypoints1.size().height)*100/((int)keypoints2.size().height) < 10){
-            result_compare = 0 + "%";
+            result_compare = ((float)keypoints1.size().height)*100/((float)keypoints2.size().height) + "%";
             openCaptureDialog(bitmap2, bitmap1, result_compare);
         }
         else {
@@ -177,14 +176,14 @@ public class AlphabetWriteFragment extends Fragment{
             int total = (int) matches.size().height;
             int Match = (int) filtered.size().height;
             Log.d("LOG", "total:" + total + " Match:" + Match);
-
+/*
             float key1 = (float) keypoints1.size().height;
             float key2 = (float) keypoints2.size().height;
 
-            float result = (key2-key1)*Match*100/(key2*total);
+            float result = (key2-key1)*Match*100/(key2*total);*/
 
-            result_compare = String.valueOf((Match * 100) / total + "%");
-            openCaptureDialog(bitmap2, bitmap1, result+ "%");
+            result_compare = String.valueOf((float) (Match * 100) / total + "%");
+            openCaptureDialog(bitmap2, bitmap1, result_compare);
         }
     }
 
@@ -192,7 +191,7 @@ public class AlphabetWriteFragment extends Fragment{
         List<DMatch> matches_original = matches.toList();
         List<DMatch> matches_filtered = new ArrayList<DMatch>();
 
-        int DIST_LIMIT = 50;
+        int DIST_LIMIT = 30;
         // Check all the matches distance and if it passes add to list of filtered matches
         Log.d("DISTFILTER", "ORG SIZE:" + matches_original.size() + "");
         for (int i = 0; i < matches_original.size(); i++) {

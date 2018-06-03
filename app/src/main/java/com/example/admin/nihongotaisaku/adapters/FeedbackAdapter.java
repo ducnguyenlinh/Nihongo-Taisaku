@@ -30,7 +30,6 @@ public class FeedbackAdapter extends RecyclerView.Adapter<FeedbackAdapter.Feedba
 
     @Override
     public void onBindViewHolder(FeedbackHoleder holder, int position) {
-        holder.tvFeedbackUser.setText(listFeedbacks.get(position).getContent());
         holder.tvFeedbackContent.setText(listFeedbacks.get(position).getContent());
     }
 
@@ -40,11 +39,10 @@ public class FeedbackAdapter extends RecyclerView.Adapter<FeedbackAdapter.Feedba
     }
 
     public class FeedbackHoleder extends RecyclerView.ViewHolder {
-        public TextView tvFeedbackUser, tvFeedbackContent;
+        public TextView tvFeedbackContent;
 
         public FeedbackHoleder(View itemView) {
             super(itemView);
-            tvFeedbackUser = (TextView) itemView.findViewById(R.id.tvFeedbackUser);
             tvFeedbackContent = (TextView) itemView.findViewById(R.id.tvFeedbackContent);
         }
     }

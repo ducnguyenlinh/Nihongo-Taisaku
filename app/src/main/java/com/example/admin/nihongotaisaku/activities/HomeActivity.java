@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.admin.nihongotaisaku.R;
 import com.example.admin.nihongotaisaku.adapters.AlbumsAdapter;
 import com.example.admin.nihongotaisaku.api.APIService;
@@ -70,7 +71,10 @@ public class HomeActivity extends AppCompatActivity
 
         prepareAlbums();
 
-        Glide.with(HomeActivity.this).load(R.mipmap.ic_te)
+        Glide.with(HomeActivity.this)
+                .load("https://imgur.com/vAuEmYI.png")
+                .crossFade()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into((ImageView) findViewById(R.id.backdrop));
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -86,6 +86,7 @@ public class ListAlphabetFragment extends Fragment{
                                 bundle.putString("image_compareAlphabet", response.body().get(position).getImage_compare());
                                 bundle.putInt("alphabet_id_data", response.body().get(position).getId());
                                 bundle.putString("alphabet_japanese_data", response.body().get(position).getJapanese());
+                                bundle.putInt("positonAlphabet", position);
                                 intent_to_hiragana.putExtra("alphabet_data", bundle);
                                 startActivity(intent_to_hiragana);
                             }
@@ -112,6 +113,7 @@ public class ListAlphabetFragment extends Fragment{
                                 bundle.putString("image_compareAlphabet", response.body().get(position).getImage_compare());
                                 bundle.putInt("alphabet_id_data", response.body().get(position).getId());
                                 bundle.putString("alphabet_japanese_data", response.body().get(position).getJapanese());
+                                bundle.putInt("positonAlphabet", position);
                                 intent_to_hiragana.putExtra("alphabet_data", bundle);
                                 startActivity(intent_to_hiragana);
                             }

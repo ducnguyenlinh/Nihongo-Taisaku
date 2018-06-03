@@ -72,6 +72,7 @@ public class ListVocabulary_Activity extends AppCompatActivity {
                                 response.body().get(position).getJapanese(), classifyLesson);
                         Intent it_vocabularyActivity = new Intent(ListVocabulary_Activity.this,
                                 VocabularyActivity.class);
+                        it_vocabularyActivity.putExtra("vocabularyJapanese", response.body().get(position).getJapanese());
                         it_vocabularyActivity.putExtra("vocabulary_id", response.body().get(position).getId());
                         startActivity(it_vocabularyActivity);
                         overridePendingTransition(R.anim.slide_in_from_right, R.anim.slide_out_to_left);

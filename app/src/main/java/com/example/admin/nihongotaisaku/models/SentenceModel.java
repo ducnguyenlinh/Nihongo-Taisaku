@@ -2,7 +2,7 @@ package com.example.admin.nihongotaisaku.models;
 
 public class SentenceModel {
     int vocabulary_id;
-    String content, mean;
+    String content, mean, spell;
 
     public SentenceModel() {
     }
@@ -12,10 +12,11 @@ public class SentenceModel {
         this.mean = mean;
     }
 
-    public SentenceModel(int vocabulary_id, String content, String mean) {
+    public SentenceModel(int vocabulary_id, String content, String mean, String spell) {
         this.vocabulary_id = vocabulary_id;
         this.content = content;
         this.mean = mean;
+        this.spell = spell;
     }
 
     public int getVocabulary_id() {
@@ -40,5 +41,13 @@ public class SentenceModel {
 
     public void setMean(String mean) {
         this.mean = mean;
+    }
+
+    public String getSpell() {
+        return spell;
+    }
+
+    public void setSpell(String spell) {
+        this.spell = spell;
     }
 }

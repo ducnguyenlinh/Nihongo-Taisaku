@@ -40,7 +40,7 @@ public class VocabularyActivity extends AppCompatActivity {
 
     float width;
     View touch_lyt, lyt1,lyt2,lyt3,lyt4;
-    TextView tv1_1, tv1_2, tv2_1, tv2_2, tv2_3, tv2_4, tv4_1;
+    TextView tv1_1, tv1_2, tv2_1, tv2_2, tv2_3, tv2_4, tv2_5, tv2_6, tv4_1;
     ImageView img3_1;
     Propose propose;
 
@@ -52,12 +52,16 @@ public class VocabularyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vocabulary);
 
+        setTitle(getIntent().getStringExtra("vocabularyJapanese"));
+
         tv1_1 = (TextView) findViewById(R.id.tv1_1);
         tv1_2 = (TextView) findViewById(R.id.tv1_2);
         tv2_1 = (TextView) findViewById(R.id.tv2_1);
         tv2_2 = (TextView) findViewById(R.id.tv2_2);
         tv2_3 = (TextView) findViewById(R.id.tv2_3);
         tv2_4 = (TextView) findViewById(R.id.tv2_4);
+        tv2_5 = (TextView) findViewById(R.id.tv2_5);
+        tv2_6 = (TextView) findViewById(R.id.tv2_6);
         tv4_1 = (TextView) findViewById(R.id.tv4_1);
         img3_1 = (ImageView) findViewById(R.id.img3_1);
 
@@ -300,14 +304,17 @@ public class VocabularyActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ArrayList<SentenceModel>> call, Response<ArrayList<SentenceModel>> response) {
                 if (response.body().size() == 1) {
-                    tv2_1.setText(response.body().get(0).getContent());
-                    tv2_2.setText(response.body().get(0).getMean());
+                    tv2_1.setText("VD1: " + response.body().get(0).getContent());
+                    tv2_2.setText(response.body().get(0).getSpell());
+                    tv2_3.setText(response.body().get(0).getMean());
                 }
                 else if (response.body().size() >1){
-                    tv2_1.setText(response.body().get(0).getContent());
-                    tv2_2.setText(response.body().get(0).getMean());
-                    tv2_3.setText(response.body().get(1).getContent());
-                    tv2_4.setText(response.body().get(1).getMean());
+                    tv2_1.setText("VD1: " + response.body().get(0).getContent());
+                    tv2_2.setText(response.body().get(0).getSpell());
+                    tv2_3.setText(response.body().get(0).getMean());
+                    tv2_4.setText("VD2: " + response.body().get(1).getContent());
+                    tv2_5.setText(response.body().get(1).getSpell());
+                    tv2_6.setText(response.body().get(1).getMean());
                 }
             }
 
@@ -336,7 +343,7 @@ public class VocabularyActivity extends AppCompatActivity {
                 dialogFeedbackVocabulary();
                 return true;
             case R.id.action_look_feedbacks:
-                getFeedbackLocal(vocabularyID);
+                getFeedbackVocabularyLocal(vocabularyID);
                 return true;
         }
         return false;
@@ -386,7 +393,7 @@ public class VocabularyActivity extends AppCompatActivity {
     }
 
     //Get Feedback
-    private void getFeedbackLocal(int mVocabularyID){
+    private void getFeedbackVocabularyLocal(int mVocabularyID){
         final String object_class = "vocabulary";
         Call<ArrayList<FeedbackModel>> call_feedbacks = (new APIRetrofit()).getAPIService().getFeedbacksService(
                 SharedPrefManager.getInstance(VocabularyActivity.this).getUser().getEmail(),
