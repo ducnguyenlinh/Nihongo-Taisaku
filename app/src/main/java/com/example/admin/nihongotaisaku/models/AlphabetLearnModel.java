@@ -1,18 +1,18 @@
 package com.example.admin.nihongotaisaku.models;
 
-public class AlphabetImageModel {
+public class AlphabetLearnModel {
     String sound, image_association, description;
     String picture_1, picture_2, picture_3;
     int alphabet_id;
 
-    public AlphabetImageModel() {
+    public AlphabetLearnModel() {
     }
 
-    public AlphabetImageModel(int alphabet_id) {
+    public AlphabetLearnModel(int alphabet_id) {
         this.alphabet_id = alphabet_id;
     }
 
-    public AlphabetImageModel(String sound, String image_association, String description,
+    public AlphabetLearnModel(String sound, String image_association, String description,
                               String picture_1, String picture_2, String picture_3) {
         this.sound = sound;
         this.image_association = image_association;

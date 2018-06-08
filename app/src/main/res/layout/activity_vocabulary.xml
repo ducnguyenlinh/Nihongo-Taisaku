@@ -21,7 +21,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="MEAN"/>
+                android:text="Nghĩa"/>
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -43,7 +43,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="SENTENCE"
+                    android:text="Câu văn"
                     android:gravity="center"
                     android:layout_marginRight="@dimen/dimen_10dp"/>
                 <ImageView
@@ -65,7 +65,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="JAPANESE"
+                    android:text="Từ tiếng Nhật"
                     android:gravity="center"/>
             </LinearLayout>
         </LinearLayout>
@@ -83,7 +83,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="PICTURE"/>
+                android:text="Tranh minh họa"/>
         </LinearLayout>
     </LinearLayout>
 
@@ -109,7 +109,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:textSize="@dimen/dimen_50dp"/>
+                android:textSize="@dimen/dimen_30dp"/>
 
         </LinearLayout>
 
@@ -142,6 +142,7 @@
                 android:id="@+id/tv2_1"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen_0dp"
+                android:layout_marginTop="5dp"
                 android:gravity="left"
                 android:layout_weight="1"
                 android:textSize="@dimen/dimen_20dp"/>
@@ -163,6 +164,7 @@
                 android:id="@+id/tv2_4"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen_0dp"
+                android:layout_marginTop="5dp"
                 android:gravity="left"
                 android:layout_weight="1"
                 android:textSize="@dimen/dimen_20dp"/>

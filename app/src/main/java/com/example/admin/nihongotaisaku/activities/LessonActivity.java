@@ -160,7 +160,7 @@ public class LessonActivity extends AppCompatActivity {
 
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(LessonActivity.this);
                 alertDialog.setView(v);
-                alertDialog.setTitle("Lesson History");
+                alertDialog.setTitle("Lịch sử bài học");
                 alertDialog.setPositiveButton("OK", null);
                 alertDialog.show();
             }

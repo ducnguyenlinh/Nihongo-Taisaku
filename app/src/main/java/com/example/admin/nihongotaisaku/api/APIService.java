@@ -1,6 +1,6 @@
 package com.example.admin.nihongotaisaku.api;
 
-import com.example.admin.nihongotaisaku.models.AlphabetImageModel;
+import com.example.admin.nihongotaisaku.models.AlphabetLearnModel;
 import com.example.admin.nihongotaisaku.models.AlphabetModel;
 import com.example.admin.nihongotaisaku.models.FeedbackModel;
 import com.example.admin.nihongotaisaku.models.HistoryModel;
@@ -72,7 +72,7 @@ public interface APIService {
 
     //GET alphabet image
     @GET("api/alphabet_images/{id}.json")
-    Call<AlphabetImageModel> getAlphabetImagesService(
+    Call<AlphabetLearnModel> getAlphabetImagesService(
             @Path("id") int id,
             @Query("user_email") String email,
             @Query("user_token") String token

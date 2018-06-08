@@ -304,17 +304,17 @@ public class VocabularyActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ArrayList<SentenceModel>> call, Response<ArrayList<SentenceModel>> response) {
                 if (response.body().size() == 1) {
-                    tv2_1.setText("VD1: " + response.body().get(0).getContent());
-                    tv2_2.setText(response.body().get(0).getSpell());
-                    tv2_3.setText(response.body().get(0).getMean());
+                    tv2_1.setText(" VD1: " + response.body().get(0).getContent());
+                    tv2_2.setText(" Đọc: " + response.body().get(0).getSpell());
+                    tv2_3.setText(" Nghĩa: " + response.body().get(0).getMean());
                 }
                 else if (response.body().size() >1){
-                    tv2_1.setText("VD1: " + response.body().get(0).getContent());
-                    tv2_2.setText(response.body().get(0).getSpell());
-                    tv2_3.setText(response.body().get(0).getMean());
-                    tv2_4.setText("VD2: " + response.body().get(1).getContent());
-                    tv2_5.setText(response.body().get(1).getSpell());
-                    tv2_6.setText(response.body().get(1).getMean());
+                    tv2_1.setText(" VD1: " + response.body().get(0).getContent());
+                    tv2_2.setText(" Đọc: " + response.body().get(0).getSpell());
+                    tv2_3.setText(" Nghĩa: " + response.body().get(0).getMean());
+                    tv2_4.setText(" VD2: " + response.body().get(1).getContent());
+                    tv2_5.setText(" Đọc: " + response.body().get(1).getSpell());
+                    tv2_6.setText(" Nghĩa: " + response.body().get(1).getMean());
                 }
             }
 

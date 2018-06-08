@@ -79,8 +79,6 @@ public class LogInFragment extends AuthFragment {
                         if (!validate(views.get(0).getText().toString(), views.get(1).getText().toString())){
                             return;
                         }
-
-                        Toast.makeText(getContext(), "OK", Toast.LENGTH_LONG).show();
                         Login();
                     }
                 });

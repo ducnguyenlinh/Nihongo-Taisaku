@@ -141,7 +141,7 @@ public class ListVocabulary_Activity extends AppCompatActivity {
 
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(ListVocabulary_Activity.this);
                 alertDialog.setView(v);
-                alertDialog.setTitle("Vocabulary History");
+                alertDialog.setTitle("Lịch sử từ vựng");
                 alertDialog.setPositiveButton("OK", null);
                 alertDialog.show();
             }

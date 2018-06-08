@@ -23,7 +23,6 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.admin.nihongotaisaku.R;
-import com.example.admin.nihongotaisaku.activities.AlphabetLearn_WriteActivity;
 import com.example.admin.nihongotaisaku.helper.CanvasView;
 
 import org.opencv.android.Utils;
@@ -61,7 +60,7 @@ public class AlphabetWriteFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-        View v = inflater.inflate(R.layout.fragment_alphabet_writing, container, false);
+        View v = inflater.inflate(R.layout.fragment_alphabet_write, container, false);
         img_writing = (ImageView) v.findViewById(R.id.img_writting);
         signature_canvas = (CanvasView) v.findViewById(R.id.canvas_view);
         bottomBar = (BottomNavigationView) v.findViewById(R.id.bottomBar);
@@ -126,8 +125,8 @@ public class AlphabetWriteFragment extends Fragment{
         Utils.bitmapToMat(bitmap2, mat2, false);
 
 
-        Imgproc.cvtColor(mat1, mat1, Imgproc.COLOR_BGR2RGB);
-        Imgproc.cvtColor(mat2, mat2, Imgproc.COLOR_BGR2RGB);
+        Imgproc.cvtColor(mat1, mat1, Imgproc.COLOR_BGR2GRAY);
+        Imgproc.cvtColor(mat2, mat2, Imgproc.COLOR_BGR2GRAY);
 
         MatOfKeyPoint keypoints1 = new MatOfKeyPoint();
         MatOfKeyPoint keypoints2 = new MatOfKeyPoint();
@@ -191,7 +190,7 @@ public class AlphabetWriteFragment extends Fragment{
         List<DMatch> matches_original = matches.toList();
         List<DMatch> matches_filtered = new ArrayList<DMatch>();
 
-        int DIST_LIMIT = 30;
+        int DIST_LIMIT = 60;
         // Check all the matches distance and if it passes add to list of filtered matches
         Log.d("DISTFILTER", "ORG SIZE:" + matches_original.size() + "");
         for (int i = 0; i < matches_original.size(); i++) {

@@ -15,7 +15,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.admin.nihongotaisaku.R;
 import com.example.admin.nihongotaisaku.api.APIRetrofit;
 import com.example.admin.nihongotaisaku.helper.SharedPrefManager;
-import com.example.admin.nihongotaisaku.models.AlphabetImageModel;
+import com.example.admin.nihongotaisaku.models.AlphabetLearnModel;
 import com.markjmind.propose.Propose;
 
 import retrofit2.Call;
@@ -38,7 +38,7 @@ public class AlphabetLearnFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_alphabet_image, container, false);
+        View v = inflater.inflate(R.layout.fragment_alphabet_learn, container, false);
         imgAssociation = (ImageView) v.findViewById(R.id.imgAssociation);
         tvDescription = (TextView) v.findViewById(R.id.tvDescription);
         img_picture_1 = (ImageView) v.findViewById(R.id.img_picture_1);
@@ -69,16 +69,16 @@ public class AlphabetLearnFragment extends Fragment {
     }
 
     private void getAlphabetImage(int alphabetID){
-        Call<AlphabetImageModel> call_alphabet_images = (new APIRetrofit()).getAPIService().
+        Call<AlphabetLearnModel> call_alphabet_images = (new APIRetrofit()).getAPIService().
                 getAlphabetImagesService(
                         alphabetID,
                         SharedPrefManager.getInstance(getContext()).getUser().getEmail(),
                         SharedPrefManager.getInstance(getContext()).getUser().getAuthentication_token()
 
                 );
-        call_alphabet_images.enqueue(new Callback<AlphabetImageModel>() {
+        call_alphabet_images.enqueue(new Callback<AlphabetLearnModel>() {
             @Override
-            public void onResponse(Call<AlphabetImageModel> call, Response<AlphabetImageModel> response) {
+            public void onResponse(Call<AlphabetLearnModel> call, Response<AlphabetLearnModel> response) {
                 str_association = response.body().getImage_association();
                 str_description = response.body().getDescription();
                 str_picture_1 = response.body().getPicture_1();
@@ -113,7 +113,7 @@ public class AlphabetLearnFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<AlphabetImageModel> call, Throwable t) {
+            public void onFailure(Call<AlphabetLearnModel> call, Throwable t) {
 
             }
         });

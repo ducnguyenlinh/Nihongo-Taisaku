@@ -28,7 +28,7 @@ public class WritingKatakanaFragment extends Fragment implements GlideModule{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_alphabet_writing, container, false);
+        View v = inflater.inflate(R.layout.fragment_alphabet_write, container, false);
 
         ImageView img_writing = (ImageView) v.findViewById(R.id.img_writting);
 
